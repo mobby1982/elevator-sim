@@ -10,7 +10,7 @@ class Elevator extends Actor with ActorLogging {
   var isBusy = false
   val random = new scala.util.Random()
   var numOfReqProcessed  = 0L
-
+  var durationProcessingReq = 0L
   def simulateTimePassage(i: Int) =   Thread.sleep(i * TIME_DELTA_IN_MILLS)
 
   def receive = {
@@ -29,6 +29,7 @@ class Elevator extends Actor with ActorLogging {
             simulate passage of time
         */
         simulateTimePassage(distance)
+        durationProcessingReq = durationProcessingReq + distance
         currentFloor = fromFloor
         self ! RequestFloor(random.nextInt(100))
         
@@ -46,11 +47,13 @@ class Elevator extends Actor with ActorLogging {
       simulateTimePassage(distance)
 
       currentFloor = floorNo
+      durationProcessingReq = durationProcessingReq + distance
       numOfReqProcessed = numOfReqProcessed + 1
       self ! ProcessRequest
 
     case GetStats =>
-      sender ! ElevatorStats(self.path.name, currentFloor, numOfReqProcessed)
+      sender ! ElevatorStats(self.path.name, currentFloor,
+        numOfReqProcessed, durationProcessingReq, durationProcessingReq / numOfReqProcessed)
   }
 
 }

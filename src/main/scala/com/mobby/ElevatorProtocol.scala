@@ -13,7 +13,9 @@ trait ElevatorProtocol {
   case class FromFloor(reqs: Vector[RequestElevator])
   case class RequestFloor(floor: Int)
   case class Exhausted(elevatorName: String)
-  case class ElevatorStats(name: String, currentFloor: Int, numOfReqProcessed: Long)
+  case class ElevatorStats(name: String, currentFloor: Int,
+                           numOfReqProcessed: Long, totalDurationInMills: Long,
+                           avgTimePerReqMillis: Long)
   case class CollectionElevatorStats(list: List[ElevatorStats])
 
   case object CreateElevator
@@ -34,7 +36,7 @@ trait ElevatorProtocol {
    */
 
   object ElevatorStats extends DefaultJsonProtocol {
-    implicit val elformat = jsonFormat3(ElevatorStats.apply)
+    implicit val elformat = jsonFormat5(ElevatorStats.apply)
   }
 
   object CollectionElevatorStats extends DefaultJsonProtocol {
