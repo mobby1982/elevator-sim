@@ -17,8 +17,7 @@ libraryDependencies ++= Seq(
   "io.spray"          %% "spray-routing"   % "1.3.2",
   "io.spray" %%  "spray-json" % "1.3.1",
   "com.typesafe.akka" %% "akka-testkit" % "2.3.9" % "test",
-  "org.scalatest" % "scalatest_2.10" % "2.2.1" % "test" withSources() withJavadoc(),
-  "org.scalacheck" %% "scalacheck" % "1.12.1" % "test" withSources() withJavadoc()
+  "org.scalatest" % "scalatest_2.11" % "2.2.1" % "test"
 )
 
 
