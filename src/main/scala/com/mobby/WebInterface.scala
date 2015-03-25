@@ -20,7 +20,7 @@ trait WebInterface extends HttpService with ActorLogging { self: Actor =>
   import akka.pattern.ask
   import akka.pattern.pipe
 
-  val elevatorCordinator = context.actorOf(Props[ElevatorCordinator], "ElevatorController")
+  val elevatorCordinator = context.actorOf(Props[ElevatorCoordinator], "ElevatorController")
 
   def routes: Route = {
 

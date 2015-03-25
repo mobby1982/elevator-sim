@@ -42,6 +42,17 @@ trait ElevatorProtocol {
   object CollectionElevatorStats extends DefaultJsonProtocol {
     implicit val cesFormat = jsonFormat1(CollectionElevatorStats.apply)
   }
+
+  // for now create a Stream of random Request
+  def generateRequest = {
+    val random = new scala.util.Random()
+    (1 to 10).foldLeft(Vector[RequestElevator]())(
+      (b,a) => RequestElevator( fromFloor = random.nextInt(100), if (random.nextBoolean) Up else Down) +: b)
+  }
+
+  val elevatorNames = (1 to 8).foldLeft(List[String]())((b,a) => ("Elevator-No-" + a) :: b)
+
+
 }
 
 

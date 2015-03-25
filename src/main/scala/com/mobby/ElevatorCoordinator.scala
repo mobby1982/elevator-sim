@@ -1,25 +1,17 @@
 package com.mobby
 
 import akka.actor._
-import concurrent.Future._
 import scala.concurrent.Future
 import scala.concurrent.duration._
 import akka.util.Timeout
 
-class ElevatorCordinator extends Actor with ElevatorCreator with ActorLogging {
+class ElevatorCoordinator extends Actor with ElevatorCreator with ActorLogging {
 
   import context._
   implicit val timeout = Timeout(5 seconds)
   import elevatorProtocol._
   import akka.pattern.ask
   private [this] var systemInit = false
-
-  // for now create a Stream of random Request
-  def generateRequest = {
-    val random = new scala.util.Random()
-    (1 to 10).foldLeft(Vector[RequestElevator]())(
-      (b,a) => RequestElevator( fromFloor = random.nextInt(100), if (random.nextBoolean) Up else Down) +: b)
-  }
 
 
   def receive = {
@@ -30,8 +22,8 @@ class ElevatorCordinator extends Actor with ElevatorCreator with ActorLogging {
       if (systemInit) {
         log.info(s"Elevator system already initialized with elevators")
       } else {
-        val list = (1 to 8).foldLeft(List[String]())((b,a) => ("Elevator-No-" + a) :: b)
-        list.foreach {
+
+        elevatorNames.foreach {
           name =>
             if (context.child(name).isEmpty){
               createElevator(name)
