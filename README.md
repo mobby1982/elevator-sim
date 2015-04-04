@@ -1,5 +1,5 @@
 # Elevator-sim
-Elevator Simulator - playing with Akka and Spray 
+Elevator Simulator - playing with Akka and Spray ( Java 1.7 Required )
 
 # Instructions to the application
 
